@@ -11,7 +11,7 @@ export default ({ data }) => {
 		<Layout>
 			<div>
 				<h1>Max's Thoughts</h1>
-				<h4>{data.allMarkdownRemark.totalCount}</h4>
+				<h4>{data.allMarkdownRemark.totalCount} posts</h4>
 				{
 					data.allMarkdownRemark.edges.map(({ node }) => (
 						<div key={node.id}>
