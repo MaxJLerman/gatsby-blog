@@ -1,8 +1,9 @@
 import * as React from "react"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import "./index.css";
 
 export default ({ data }) => {
 	console.log(data);
@@ -14,8 +15,10 @@ export default ({ data }) => {
 				{
 					data.allMarkdownRemark.edges.map(({ node }) => (
 						<div key={node.id}>
-							<span>{node.frontmatter.title} - {node.frontmatter.date}</span>
-							<p>{node.excerpt}</p>
+							<Link className="blogLink" to={node.fields.slug}>
+								<h3 className="blogTitle">{node.frontmatter.title} - {node.frontmatter.date}</h3>
+								<p>{node.excerpt}</p>
+							</Link>
 						</div>
 					))
 				}
@@ -33,15 +36,18 @@ export const Head = () => <Seo title="Home" />
 
 export const query = graphql`
   query {
-		allMarkdownRemark {
+		allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
 			totalCount 
 			edges {
 				node {
 					id
 					frontmatter {
-						date
 						description
 						title
+						date
+					}
+					fields {
+						slug
 					}
 					html
 					excerpt
